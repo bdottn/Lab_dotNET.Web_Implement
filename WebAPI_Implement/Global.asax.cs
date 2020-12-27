@@ -8,6 +8,8 @@ namespace WebAPI_Implement
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            AutofacConfiguration.Configure(GlobalConfiguration.Configuration);
         }
     }
 }

@@ -37,3 +37,6 @@ using System.Runtime.InteropServices;
 
 // 相依組件參考設定：測試專案
 [assembly: InternalsVisibleTo("Service.Test")]
+
+// 相依組件參考設定：執行專案
+[assembly: InternalsVisibleTo("WebAPI_Implement")]
