@@ -113,6 +113,7 @@
     <Compile Include="App_Start\AutofacConfiguration.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CustomerController.cs" />
+    <Compile Include="Extension\TypeConversion.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

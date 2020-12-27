@@ -2,10 +2,10 @@
 using Operation.Model;
 using Service.Model;
 using Service.Protocol;
-using System;
 using System.Net;
 using System.Web.Http;
 using View.Model;
+using WebAPI_Implement.Extension;
 
 namespace WebAPI_Implement
 {
@@ -41,17 +41,81 @@ namespace WebAPI_Implement
 
                 return this.Content(HttpStatusCode.Created, receipt);
             }
-            else if (result.ResultType == ServiceResultType.Fail)
+            else
             {
-                return this.Content(HttpStatusCode.Forbidden, result.Message);
+                var statusCode = result.ResultType.ToHttpStatusCode();
+
+                return this.Content(statusCode, result.Message);
             }
-            else if (result.ResultType == ServiceResultType.Exception)
+        }
+
+        [Route("customers/{customerId:int}")]
+        [HttpGet]
+        public IHttpActionResult Find(int customerId)
+        {
+            var result = this.service.Find(new Customer() { Id = customerId, });
+
+            if (result.ResultType == ServiceResultType.Success)
             {
-                return this.Content(HttpStatusCode.Conflict, result.Message);
+                var receipt = this.mapper.Map<CustomerInfo>(result.Value);
+
+                return this.Content(HttpStatusCode.OK, receipt);
+            }
+            else if (result.ResultType == ServiceResultType.Warning)
+            {
+                return this.Content(HttpStatusCode.OK, result.Message);
             }
             else
             {
-                throw new NotSupportedException();
+                var statusCode = result.ResultType.ToHttpStatusCode();
+
+                return this.Content(statusCode, result.Message);
+            }
+        }
+
+        [Route("customers/{customerId:int}")]
+        [HttpPut]
+        public IHttpActionResult Update(int customerId, [FromBody]CustomerData customer)
+        {
+            var model = this.mapper.Map<Customer>(customer);
+
+            model.Id = customerId;
+
+            var result = this.service.Update(model);
+
+            if (result.ResultType == ServiceResultType.Success)
+            {
+                var receipt = this.mapper.Map<CustomerInfo>(result.Value);
+
+                return this.Content(HttpStatusCode.OK, receipt);
+            }
+            else
+            {
+                var statusCode = result.ResultType.ToHttpStatusCode();
+
+                return this.Content(statusCode, result.Message);
+            }
+        }
+
+        [Route("customers/{customerId:int}")]
+        [HttpDelete]
+        public IHttpActionResult Delete(int customerId)
+        {
+            var result = this.service.Delete(new Customer() { Id = customerId, });
+
+            if (result.ResultType == ServiceResultType.Success)
+            {
+                return this.StatusCode(HttpStatusCode.OK);
+            }
+            else if (result.ResultType == ServiceResultType.Warning)
+            {
+                return this.Content(HttpStatusCode.OK, result.Message);
+            }
+            else
+            {
+                var statusCode = result.ResultType.ToHttpStatusCode();
+
+                return this.Content(statusCode, result.Message);
             }
         }
     }
