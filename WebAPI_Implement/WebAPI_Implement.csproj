@@ -49,6 +49,12 @@
     <Reference Include="Autofac.Integration.WebApi, Version=6.0.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.WebApi2.6.0.1\lib\net472\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Contrib.Autofac.DependencyInjection, Version=5.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.Contrib.Autofac.DependencyInjection.5.1.0\lib\netstandard2.0\AutoMapper.Contrib.Autofac.DependencyInjection.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -127,6 +133,10 @@
     <ProjectReference Include="..\EntityOperation\EntityOperation.csproj">
       <Project>{82f11a64-bc38-4cc3-bd28-bb882ff55e0d}</Project>
       <Name>EntityOperation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model.Mapper\Model.Mapper.csproj">
+      <Project>{1ab2769a-02f0-4c5b-96f2-125cd138203e}</Project>
+      <Name>Model.Mapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{de5f01fd-0f7e-40e1-aed6-41a69fecdaea}</Project>

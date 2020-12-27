@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
+using AutoMapper.Contrib.Autofac.DependencyInjection;
 using EntityOperation;
 using EntityOperation.Protocol;
+using Model.Mapper.OperationToView;
 using Service;
 using Service.Protocol;
 using System.Reflection;
@@ -15,6 +17,9 @@ namespace WebAPI_Implement
         {
             var builder = new ContainerBuilder();
 
+            // AutoMapper
+            builder.RegisterAutoMapper(typeof(CustomerMapToCustomerInfo).Assembly);
+
             // EntityOperation
             builder.RegisterGeneric(typeof(SQLRepository<>)).As(typeof(ISQLRepository<>));
 
@@ -25,6 +30,7 @@ namespace WebAPI_Implement
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             var container = builder.Build();
+
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
