@@ -2,6 +2,7 @@
 using EntityOperation.Protocol;
 using ExpectedObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 using System.Transactions;
 
@@ -48,6 +49,9 @@ namespace EntityOperation.Test
                 {
                     Id = 1,
                     Name = "CustomerName_1",
+                    Phone = "0800000123",
+                    CreatedTime = new DateTime(2020, 12, 27),
+                    LatestModifiedTime = new DateTime(2020, 12, 27),
                 };
 
             this.repository.Create(customer);
@@ -55,7 +59,10 @@ namespace EntityOperation.Test
             var actual =
                 this.context.Customers.AsNoTracking().Single(c =>
                     c.Id == customer.Id &&
-                    c.Name == customer.Name);
+                    c.Name == customer.Name &&
+                    c.Phone == customer.Phone &&
+                    c.CreatedTime == customer.CreatedTime &&
+                    c.LatestModifiedTime == customer.LatestModifiedTime);
 
             customer.ToExpectedObject().ShouldEqual(actual);
         }
