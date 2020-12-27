@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace EntityOperation.Model
+namespace Operation.Model
 {
     /// <summary>
     /// 客戶資料

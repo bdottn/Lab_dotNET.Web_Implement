@@ -35,8 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomerService.cs" />
-    <Compile Include="Model\ServiceResult.cs" />
-    <Compile Include="Model\ServiceResultType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\ICustomerService.cs" />
   </ItemGroup>

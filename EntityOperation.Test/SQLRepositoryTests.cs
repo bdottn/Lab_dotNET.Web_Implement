@@ -1,7 +1,7 @@
-﻿using EntityOperation.Model;
-using EntityOperation.Protocol;
+﻿using EntityOperation.Protocol;
 using ExpectedObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Operation.Model;
 using System;
 using System.Linq;
 using System.Transactions;

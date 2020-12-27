@@ -1,6 +1,6 @@
-﻿using EntityOperation.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using Operation.Model;
 using Service.Model;
 using Service.Protocol;
 using System.Net;

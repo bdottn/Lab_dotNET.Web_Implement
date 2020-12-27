@@ -1,4 +1,4 @@
-﻿using EntityOperation.Model;
+﻿using Operation.Model;
 using System.Data.Entity;
 
 namespace EntityOperation
