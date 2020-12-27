@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="LabContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model\Customer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\ISQLRepository.cs" />
     <Compile Include="SQLRepository.cs" />
@@ -54,6 +53,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{de5f01fd-0f7e-40e1-aed6-41a69fecdaea}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

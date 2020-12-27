@@ -72,6 +72,10 @@
       <Project>{82f11a64-bc38-4cc3-bd28-bb882ff55e0d}</Project>
       <Name>EntityOperation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{de5f01fd-0f7e-40e1-aed6-41a69fecdaea}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

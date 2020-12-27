@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace EntityOperation.Model
 {
     /// <summary>
-    /// 客戶
+    /// 客戶資料
     /// </summary>
     public class Customer
     {
