@@ -24,6 +24,18 @@ namespace Service
             customer.CreatedTime = DateTime.Now;
             customer.LatestModifiedTime = DateTime.Now;
 
+            var validationResult = this.repository.Validate(customer);
+
+            if (string.IsNullOrEmpty(validationResult) == false)
+            {
+                return
+                    new ServiceResult<Customer>()
+                    {
+                        ResultType = ServiceResultType.Fail,
+                        Message = "屬性驗證錯誤：" + validationResult,
+                    };
+            }
+
             this.repository.Create(customer);
 
             return
@@ -65,7 +77,7 @@ namespace Service
                 return
                     new ServiceResult<Customer>()
                     {
-                        ResultType = ServiceResultType.Warning,
+                        ResultType = ServiceResultType.Fail,
                         Message = "資料庫不存在客戶資料",
                     };
             }
@@ -73,6 +85,18 @@ namespace Service
             model.Name = customer.Name;
             model.Phone = customer.Phone;
             model.LatestModifiedTime = DateTime.Now;
+
+            var validationResult = this.repository.Validate(model);
+
+            if (string.IsNullOrEmpty(validationResult) == false)
+            {
+                return
+                    new ServiceResult<Customer>()
+                    {
+                        ResultType = ServiceResultType.Fail,
+                        Message = "屬性驗證錯誤：" + validationResult,
+                    };
+            }
 
             this.repository.Update(model);
 
