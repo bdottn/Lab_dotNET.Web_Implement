@@ -42,7 +42,7 @@ namespace EntityOperation.Test
 
         [TestMethod]
         [TestCategory("Integration")]
-        public void EntityOperation_CustomerCreate_預期資料庫會有寫入值()
+        public void EntityOperation_Create_預期資料庫會有寫入值()
         {
             var customer =
                 new Customer()
@@ -54,17 +54,128 @@ namespace EntityOperation.Test
                     LatestModifiedTime = new DateTime(2020, 12, 27),
                 };
 
+            var checkModel = this.GetSQLCustomer(customer);
+
+            Assert.IsNull(checkModel);
+
+
+
             this.repository.Create(customer);
 
-            var actual =
-                this.context.Customers.AsNoTracking().Single(c =>
+            var actual = this.GetSQLCustomer(customer);
+
+            customer.ToExpectedObject().ShouldEqual(actual);
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_Find_預期資料庫會有值()
+        {
+            var customer =
+                new Customer()
+                {
+                    Id = 2,
+                    Name = "CustomerName_2",
+                    Phone = "339911",
+                    CreatedTime = new DateTime(2020, 12, 26),
+                    LatestModifiedTime = new DateTime(2020, 12, 27),
+                };
+
+            this.context.Customers.Add(customer);
+            this.context.SaveChanges();
+
+            var checkModel = this.GetSQLCustomer(customer);
+
+            Assert.IsNotNull(checkModel);
+
+
+
+            var actual = this.repository.Find(customer.Id);
+
+            customer.ToExpectedObject().ShouldEqual(actual);
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_Update_預期資料庫會被更新成輸入值()
+        {
+            var customer =
+                new Customer()
+                {
+                    Id = 3,
+                    Name = "CustomerName_3",
+                    Phone = "339911",
+                    CreatedTime = new DateTime(2020, 12, 26),
+                    LatestModifiedTime = new DateTime(2020, 12, 27),
+                };
+
+            this.context.Customers.Add(customer);
+            this.context.SaveChanges();
+
+            var checkModel = this.GetSQLCustomer(customer);
+
+            Assert.IsNotNull(checkModel);
+
+
+
+            var expected =
+                new Customer()
+                {
+                    Id = customer.Id,
+                    Name = "CustomerName_Update",
+                    Phone = null,
+                    CreatedTime = new DateTime(2020, 12, 30),
+                    LatestModifiedTime = new DateTime(2020, 12, 30),
+                };
+
+            this.repository.Update(expected);
+
+            var actual = this.GetSQLCustomer(expected);
+
+            expected.ToExpectedObject().ShouldEqual(actual);
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_Delete_預期資料庫會沒有值()
+        {
+            var customer =
+                new Customer()
+                {
+                    Id = 4,
+                    Name = "CustomerName_4",
+                    Phone = "339911",
+                    CreatedTime = new DateTime(2020, 12, 26),
+                    LatestModifiedTime = new DateTime(2020, 12, 27),
+                };
+
+            this.context.Customers.Add(customer);
+            this.context.SaveChanges();
+
+            var checkModel = this.GetSQLCustomer(customer);
+
+            Assert.IsNotNull(checkModel);
+
+
+
+            this.repository.Delete(customer);
+
+            var actual = this.GetSQLCustomer(customer);
+
+            Assert.IsNull(actual);
+        }
+
+        private Customer GetSQLCustomer(Customer customer)
+        {
+            var model =
+                this.context.Customers.AsNoTracking().SingleOrDefault(c =>
                     c.Id == customer.Id &&
                     c.Name == customer.Name &&
                     c.Phone == customer.Phone &&
                     c.CreatedTime == customer.CreatedTime &&
                     c.LatestModifiedTime == customer.LatestModifiedTime);
 
-            customer.ToExpectedObject().ShouldEqual(actual);
+            return model;
         }
     }
 }
