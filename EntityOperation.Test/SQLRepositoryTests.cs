@@ -41,7 +41,7 @@ namespace EntityOperation.Test
 
         [TestMethod]
         [TestCategory("Integration")]
-        public void Create_新增Customer_預期資料庫會有寫入值()
+        public void EntityOperation_CustomerCreate_預期資料庫會有寫入值()
         {
             var customer =
                 new Customer()

@@ -25,7 +25,7 @@ namespace Service.Test
 
         [TestMethod]
         [TestCategory("Unit")]
-        public void Create_建立Customer_預期得到成功且回傳值為輸入值()
+        public void Service_CustomerCreate_預期得到Success_回傳值與傳入值一致()
         {
             var customer =
                 new Customer()
@@ -48,7 +48,7 @@ namespace Service.Test
 
         [TestMethod]
         [TestCategory("Unit")]
-        public void Create_建立Customer_預期ISQLRepository執行過一次()
+        public void Service_CustomerCreate_預期ISQLRepository執行過一次()
         {
             var customer =
                 new Customer()
