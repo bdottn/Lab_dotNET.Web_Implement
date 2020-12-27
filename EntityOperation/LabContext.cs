@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using EntityOperation.Model;
+using System.Data.Entity;
 
 namespace EntityOperation
 {
@@ -8,5 +9,10 @@ namespace EntityOperation
             : base(@"Server=.;Database=〖.NET：Lab〗Web_Implement;Integrated Security=True;")
         {
         }
+
+        /// <summary>
+        /// 客戶
+        /// </summary>
+        public DbSet<Customer> Customers { get; set; }
     }
 }
