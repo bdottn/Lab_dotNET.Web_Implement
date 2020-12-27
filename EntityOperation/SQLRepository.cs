@@ -1,4 +1,7 @@
 ﻿using EntityOperation.Protocol;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 
 namespace EntityOperation
@@ -40,6 +43,15 @@ namespace EntityOperation
                 context.Entry(model).State = EntityState.Deleted;
                 context.SaveChanges();
             }
+        }
+
+        public string Validate(TModel model)
+        {
+            var validationResults = new List<ValidationResult>();
+
+            Validator.TryValidateObject(model, new ValidationContext(model), validationResults, true);
+
+            return string.Join(Environment.NewLine, validationResults);
         }
 
         private LabContext GetContext()

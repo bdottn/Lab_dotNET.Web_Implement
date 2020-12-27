@@ -31,5 +31,15 @@
         /// </summary>
         /// <param name="model">資料庫物件</param>
         void Delete(TModel model);
+
+        /// <summary>
+        /// 驗證資料庫物件
+        /// </summary>
+        /// <param name="model">資料庫物件</param>
+        /// <returns>
+        /// 驗證錯誤訊息
+        /// <para>訊息為空值：驗證結果無錯誤</para>
+        /// </returns>
+        string Validate(TModel model);
     }
 }

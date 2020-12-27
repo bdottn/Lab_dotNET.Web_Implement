@@ -165,6 +165,39 @@ namespace EntityOperation.Test
             Assert.IsNull(actual);
         }
 
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_Validate_預期驗證訊息不為空()
+        {
+            var customer =
+                new Customer()
+                {
+                    Id = 4,
+                };
+
+            var actual = this.repository.Validate(customer);
+
+            Assert.IsFalse(string.IsNullOrEmpty(actual));
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_Validate_預期驗證訊息為空()
+        {
+            var customer =
+                new Customer()
+                {
+                    Id = 8,
+                    Name = "ABC",
+                    CreatedTime = new DateTime(2020, 12, 27),
+                    LatestModifiedTime = new DateTime(2020, 12, 27),
+                };
+
+            var actual = this.repository.Validate(customer);
+
+            Assert.IsTrue(string.IsNullOrEmpty(actual));
+        }
+
         private Customer GetSQLCustomer(Customer customer)
         {
             var model =
