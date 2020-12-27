@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Operation\Customer.cs" />
+    <Compile Include="Operation\CustomerAttribute\MSSQLDateTimeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ServiceResult.cs" />
     <Compile Include="Service\ServiceResultType.cs" />

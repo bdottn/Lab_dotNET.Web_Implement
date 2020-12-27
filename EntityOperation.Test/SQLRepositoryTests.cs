@@ -198,6 +198,24 @@ namespace EntityOperation.Test
             Assert.IsTrue(string.IsNullOrEmpty(actual));
         }
 
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_Validate_MSSQLDateTime_預期驗證訊息不為空()
+        {
+            var customer =
+                new Customer()
+                {
+                    Id = 8,
+                    Name = "ABC",
+                    CreatedTime = new DateTime(1000, 12, 27),
+                    LatestModifiedTime = new DateTime(2020, 12, 27),
+                };
+
+            var actual = this.repository.Validate(customer);
+
+            Assert.IsFalse(string.IsNullOrEmpty(actual));
+        }
+
         private Customer GetSQLCustomer(Customer customer)
         {
             var model =

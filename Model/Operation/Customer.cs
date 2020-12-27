@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Operation.Model.CustomerAttribute;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Operation.Model
@@ -32,12 +33,14 @@ namespace Operation.Model
         /// 建立時間
         /// </summary>
         [Required]
+        [MSSQLDateTime]
         public DateTime CreatedTime { get; set; }
 
         /// <summary>
         /// 最後更新時間
         /// </summary>
         [Required]
+        [MSSQLDateTime]
         public DateTime LatestModifiedTime { get; set; }
     }
 }
