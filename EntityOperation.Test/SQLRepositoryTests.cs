@@ -15,6 +15,7 @@ namespace EntityOperation.Test
         private LabContext context;
 
         private ISQLRepository<Customer> repository;
+        private ISQLQueryOperation<Customer> queryOperation;
 
         [TestInitialize]
         public void TestInitialize()
@@ -24,6 +25,7 @@ namespace EntityOperation.Test
             this.context = new LabContext();
 
             this.repository = new SQLRepository<Customer>();
+            this.queryOperation = new SQLQueryOperation<Customer>();
         }
 
         [TestCleanup]
@@ -65,6 +67,73 @@ namespace EntityOperation.Test
             var actual = this.GetSQLCustomer(customer);
 
             customer.ToExpectedObject().ShouldEqual(actual);
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_Query_預期回傳資料庫所有資料()
+        {
+            var expected = this.context.Customers.AsNoTracking().ToList();
+
+            var actual = this.repository.Query(this.queryOperation);
+
+            expected.ToExpectedObject().ShouldEqual(actual);
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_Query_使用And_預期回傳資料庫符合條件資料()
+        {
+            var expected = this.context.Customers.AsNoTracking()
+                .Where(c =>
+                    c.LatestModifiedTime >= new DateTime(2020, 12, 27))
+                .ToList();
+
+            this.queryOperation.And(c => c.LatestModifiedTime >= new DateTime(2020, 12, 27));
+
+            var actual = this.repository.Query(this.queryOperation);
+
+            expected.ToExpectedObject().ShouldEqual(actual);
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_Query_使用Order_預期回傳資料庫符合條件資料()
+        {
+            var expected = this.context.Customers.AsNoTracking()
+                .Where(c =>
+                    c.LatestModifiedTime >= new DateTime(2020, 12, 27))
+                .OrderBy(c => c.Id)
+                .ToList();
+
+            this.queryOperation.And(c => c.LatestModifiedTime >= new DateTime(2020, 12, 27));
+
+            this.queryOperation.Sort(c => c.OrderBy(cu => cu.Id));
+
+            var actual = this.repository.Query(this.queryOperation);
+
+            expected.ToExpectedObject().ShouldEqual(actual);
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_Query_使用Order_Paging預期回傳資料庫符合條件資料()
+        {
+            var pageSize = 3;
+            var pageIndex = 2;
+
+            var expected = this.context.Customers.AsNoTracking()
+                .OrderByDescending(c => c.Id)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            this.queryOperation.Sort(c => c.OrderByDescending(cu => cu.Id));
+            this.queryOperation.Paging(pageSize: pageSize, pageIndex: pageIndex);
+
+            var actual = this.repository.Query(this.queryOperation);
+
+            expected.ToExpectedObject().ShouldEqual(actual);
         }
 
         [TestMethod]

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using System.Linq;
 
 namespace EntityOperation
 {
@@ -16,6 +17,32 @@ namespace EntityOperation
             {
                 context.Set<TModel>().Add(model);
                 context.SaveChanges();
+            }
+        }
+
+        public List<TModel> Query(ISQLQueryOperation<TModel> queryOperation)
+        {
+            using (var context = this.GetContext())
+            {
+                IQueryable<TModel> query = context.Set<TModel>().AsNoTracking();
+
+                if (queryOperation.QueryExpression != null)
+                {
+                    query = query.Where(queryOperation.QueryExpression);
+                }
+
+                if (queryOperation.OrderBy != null)
+                {
+                    query = queryOperation.OrderBy(query);
+
+                    if (queryOperation.PageIndex.HasValue && queryOperation.PageSize.HasValue)
+                    {
+                        query = query.Skip((queryOperation.PageIndex.Value - 1) * queryOperation.PageSize.Value);
+                        query = query.Take(queryOperation.PageSize.Value);
+                    }
+                }
+
+                return query.ToList();
             }
         }
 

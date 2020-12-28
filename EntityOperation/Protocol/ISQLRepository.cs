@@ -1,4 +1,6 @@
-﻿namespace EntityOperation.Protocol
+﻿using System.Collections.Generic;
+
+namespace EntityOperation.Protocol
 {
     /// <summary>
     /// 資料庫物件操作介面
@@ -12,6 +14,13 @@
         /// </summary>
         /// <param name="model">資料庫物件</param>
         void Create(TModel model);
+
+        /// <summary>
+        /// 查詢資料庫物件（資料庫查詢操作物件）
+        /// </summary>
+        /// <param name="queryOperation">資料庫查詢操作物件</param>
+        /// <returns>資料庫物件集合</returns>
+        List<TModel> Query(ISQLQueryOperation<TModel> queryOperation);
 
         /// <summary>
         /// 查詢資料庫物件（主索引）
