@@ -12,6 +12,8 @@ namespace WebAPI_Implement
 
             AutofacConfiguration.Configure(GlobalConfiguration.Configuration);
 
+            log4netConfiguration.Register();
+
             GlobalConfiguration.Configuration.Filters.Add(new ActionLogAttribute());
         }
     }

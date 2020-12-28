@@ -118,9 +118,13 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutofacConfiguration.cs" />
+    <Compile Include="App_Start\log4netConfiguration.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CustomerController.cs" />
     <Compile Include="Extension\TypeConversion.cs" />
@@ -158,6 +162,9 @@
       <Project>{7601a658-bfca-42c2-9fc3-f90cef5f1e27}</Project>
       <Name>Service</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
