@@ -8,6 +8,7 @@ using System.Net;
 using System.Web.Http;
 using View.Model;
 using WebAPI_Implement.Extension;
+using WebAPI_Implement.Interceptor;
 
 namespace WebAPI_Implement
 {
@@ -20,6 +21,7 @@ namespace WebAPI_Implement
     [SwaggerResponse(HttpStatusCode.Conflict, Description = "執行錯誤。", Type = typeof(string))]
     [SwaggerResponse(HttpStatusCode.InternalServerError, Description = "伺服器嚴重錯誤。", Type = typeof(string))]
     #endregion
+    [Authentication]
     public sealed class CustomerController : ApiController
     {
         #region 建構式注入

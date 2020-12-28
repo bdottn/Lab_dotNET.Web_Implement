@@ -22,11 +22,13 @@ namespace WebAPI_Implement
             builder.RegisterAutoMapper(Assembly.Load("Model.Mapper"));
 
             // EntityOperation
-            builder.RegisterGeneric(typeof(SQLRepository<>)).As(typeof(ISQLRepository<>));
+            builder.RegisterInstance(Config.Instance).As<IConfig>();
             builder.RegisterGeneric(typeof(SQLQueryOperation<>)).As(typeof(ISQLQueryOperation<>));
+            builder.RegisterGeneric(typeof(SQLRepository<>)).As(typeof(ISQLRepository<>));
 
             // Service
             builder.RegisterType<ExceptionInterceptor>();
+            builder.RegisterType<CertificationService>().As<ICertificationService>().EnableInterfaceInterceptors().InterceptedBy(typeof(ExceptionInterceptor)); ;
             builder.RegisterType<CustomerService>().As<ICustomerService>().EnableInterfaceInterceptors().InterceptedBy(typeof(ExceptionInterceptor)); ;
 
             // WebAPI_Implement
