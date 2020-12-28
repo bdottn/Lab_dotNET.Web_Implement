@@ -4,6 +4,7 @@ using NSubstitute;
 using Operation.Model;
 using Service.Model;
 using Service.Protocol;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Http.Results;
 using View.Model;
@@ -104,6 +105,41 @@ namespace WebAPI_Implement.Test
 
             Assert.AreEqual(HttpStatusCode.OK, actual.StatusCode);
             Assert.AreEqual(customerInfo, actual.Content);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void Controller_CustomerSearchCustomerName_預期得到OK()
+        {
+            var customerName = "Test";
+
+            var customers = new List<Customer>()
+            {
+                new Customer() { Id = 111, Name = customerName + "111", },
+                new Customer() { Id = 222, Name = customerName + "222", },
+            };
+
+            var serviceResult =
+                new ServiceResult<List<Customer>>()
+                {
+                    ResultType = ServiceResultType.Success,
+                    Value = customers,
+                };
+
+            this.service.Search(customerName).Returns(serviceResult);
+
+            var customerInfos = new List<CustomerInfo>()
+            {
+                new CustomerInfo() { Id = 111, Name = customerName + "111", },
+                new CustomerInfo() { Id = 222, Name = customerName + "222", },
+            };
+
+            this.mapper.Map<List<CustomerInfo>>(customers).Returns(customerInfos);
+
+            var actual = this.controller.SearchCustomerName(customerName) as NegotiatedContentResult<List<CustomerInfo>>;
+
+            Assert.AreEqual(HttpStatusCode.OK, actual.StatusCode);
+            Assert.AreEqual(customerInfos, actual.Content);
         }
 
         [TestMethod]

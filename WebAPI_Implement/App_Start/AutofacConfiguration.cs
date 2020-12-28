@@ -23,6 +23,7 @@ namespace WebAPI_Implement
 
             // EntityOperation
             builder.RegisterGeneric(typeof(SQLRepository<>)).As(typeof(ISQLRepository<>));
+            builder.RegisterGeneric(typeof(SQLQueryOperation<>)).As(typeof(ISQLQueryOperation<>));
 
             // Service
             builder.RegisterType<ExceptionInterceptor>();

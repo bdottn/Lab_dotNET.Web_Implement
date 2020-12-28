@@ -2,6 +2,7 @@
 using Operation.Model;
 using Service.Model;
 using Service.Protocol;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 using View.Model;
@@ -64,6 +65,26 @@ namespace WebAPI_Implement
             else if (result.ResultType == ServiceResultType.Warning)
             {
                 return this.Content(HttpStatusCode.OK, result.Message);
+            }
+            else
+            {
+                var statusCode = result.ResultType.ToHttpStatusCode();
+
+                return this.Content(statusCode, result.Message);
+            }
+        }
+
+        [Route("customers/{customerName}")]
+        [HttpGet]
+        public IHttpActionResult SearchCustomerName(string customerName)
+        {
+            var result = this.service.Search(customerName);
+
+            if (result.ResultType == ServiceResultType.Success)
+            {
+                var receipt = this.mapper.Map<List<CustomerInfo>>(result.Value);
+
+                return this.Content(HttpStatusCode.OK, receipt);
             }
             else
             {
