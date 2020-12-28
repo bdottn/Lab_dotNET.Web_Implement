@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Config>
   <MSSQLConnectionString>Server=.;Database=〖.NET：Lab〗Web_Implement;Integrated Security=True;</MSSQLConnectionString>
+  <AcceptedCredential UserName="ABC" Password="456"/>
 </Config>

@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using ExpectedObjects;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Operation.Model;
 
 namespace EntityOperation.Test
 {
@@ -14,6 +16,22 @@ namespace EntityOperation.Test
             var actual = Config.Instance.MSSQLConnectionString;
 
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void EntityOperation_AcceptedCredential_預期得到設定檔的Credential()
+        {
+            var expected =
+                new WebAPICredential()
+                {
+                    Key = "ABC",
+                    Value = "456",
+                };
+
+            var actual = Config.Instance.AcceptedCredential;
+
+            expected.ToExpectedObject().ShouldEqual(actual);
         }
     }
 }

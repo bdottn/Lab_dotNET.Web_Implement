@@ -55,6 +55,7 @@
     <Compile Include="LabContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol\IConfig.cs" />
     <Compile Include="Protocol\ISQLQueryOperation.cs" />
     <Compile Include="Protocol\ISQLRepository.cs" />
     <Compile Include="SQLQueryOperation.cs" />

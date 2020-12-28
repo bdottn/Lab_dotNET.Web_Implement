@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EntityOperation.Protocol;
+using Operation.Model;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -7,7 +9,7 @@ using System.Xml.Linq;
 
 namespace EntityOperation
 {
-    sealed class Config
+    sealed class Config : IConfig
     {
         // 設計模式：Singleton
         private static readonly Lazy<Config> lazySingleton = new Lazy<Config>(() => new Config());
@@ -65,6 +67,21 @@ namespace EntityOperation
             get
             {
                 return this.ConfigDocument.Root.Element("MSSQLConnectionString").Value;
+            }
+        }
+
+        public WebAPICredential AcceptedCredential
+        {
+            get
+            {
+                var element = this.ConfigDocument.Root.Element("AcceptedCredential");
+
+                return
+                    new WebAPICredential()
+                    {
+                        Key = element.Attribute("UserName").Value,
+                        Value = element.Attribute("Password").Value,
+                    };
             }
         }
     }
