@@ -2,6 +2,7 @@
 using Operation.Model;
 using Service.Model;
 using Service.Protocol;
+using Swashbuckle.Swagger.Annotations;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
@@ -13,6 +14,12 @@ namespace WebAPI_Implement
     /// <summary>
     /// 客戶控制器
     /// </summary>
+    #region Swagger 通用設定
+    [SwaggerResponseRemoveDefaults]
+    [SwaggerResponse(HttpStatusCode.Forbidden, Description = "執行失敗。", Type = typeof(string))]
+    [SwaggerResponse(HttpStatusCode.Conflict, Description = "執行錯誤。", Type = typeof(string))]
+    [SwaggerResponse(HttpStatusCode.InternalServerError, Description = "伺服器嚴重錯誤。", Type = typeof(string))]
+    #endregion
     public sealed class CustomerController : ApiController
     {
         #region 建構式注入
@@ -20,6 +27,9 @@ namespace WebAPI_Implement
         private readonly ICustomerService service;
         private readonly IMapper mapper;
 
+        /// <summary>
+        /// 客戶控制器
+        /// </summary>
         public CustomerController(ICustomerService service, IMapper mapper)
         {
             this.service = service;
@@ -28,8 +38,13 @@ namespace WebAPI_Implement
 
         #endregion
 
+        /// <summary>
+        /// 建立客戶資料
+        /// </summary>
+        /// <param name="customer">客戶資料</param>
         [Route("customers")]
         [HttpPost]
+        [SwaggerResponse(HttpStatusCode.Created, Description = "建立成功。", Type = typeof(CustomerInfo))]
         public IHttpActionResult Create([FromBody]CustomerData customer)
         {
             var model = this.mapper.Map<Customer>(customer);
@@ -50,8 +65,13 @@ namespace WebAPI_Implement
             }
         }
 
+        /// <summary>
+        /// 搜尋客戶資料
+        /// </summary>
+        /// <param name="customerId">客戶序號</param>
         [Route("customers/{customerId:int}")]
         [HttpGet]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "搜尋成功。", Type = typeof(CustomerInfo))]
         public IHttpActionResult Find(int customerId)
         {
             var result = this.service.Find(customerId);
@@ -74,8 +94,13 @@ namespace WebAPI_Implement
             }
         }
 
+        /// <summary>
+        /// 搜尋客戶資料
+        /// </summary>
+        /// <param name="customerName">客戶姓名</param>
         [Route("customers/{customerName}")]
         [HttpGet]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "搜尋成功。", Type = typeof(CustomerInfo))]
         public IHttpActionResult SearchCustomerName(string customerName)
         {
             var result = this.service.Search(customerName);
@@ -94,8 +119,14 @@ namespace WebAPI_Implement
             }
         }
 
+        /// <summary>
+        /// 更新客戶資料
+        /// </summary>
+        /// <param name="customerId">客戶序號</param>
+        /// <param name="customer">客戶資料</param>
         [Route("customers/{customerId:int}")]
         [HttpPut]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "更新成功。", Type = typeof(CustomerInfo))]
         public IHttpActionResult Update(int customerId, [FromBody]CustomerData customer)
         {
             var model = this.mapper.Map<Customer>(customer);
@@ -116,8 +147,13 @@ namespace WebAPI_Implement
             }
         }
 
+        /// <summary>
+        /// 刪除客戶資料
+        /// </summary>
+        /// <param name="customerId">客戶序號</param>
         [Route("customers/{customerId:int}")]
         [HttpDelete]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "刪除成功。")]
         public IHttpActionResult Delete(int customerId)
         {
             var result = this.service.Delete(customerId);
