@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Http;
+using WebAPI_Implement.Interceptor;
 
 namespace WebAPI_Implement
 {
@@ -10,6 +11,8 @@ namespace WebAPI_Implement
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             AutofacConfiguration.Configure(GlobalConfiguration.Configuration);
+
+            GlobalConfiguration.Configuration.Filters.Add(new ActionLogAttribute());
         }
     }
 }
