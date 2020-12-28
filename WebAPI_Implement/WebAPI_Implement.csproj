@@ -119,6 +119,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\EntityOperation\LabConfig.xml">
+      <Link>LabConfig.xml</Link>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <None Include="log4net.config">
