@@ -3,6 +3,7 @@ using Operation.Model;
 using Service.Model;
 using Service.Protocol;
 using System;
+using System.Collections.Generic;
 
 namespace Service
 {
@@ -11,10 +12,12 @@ namespace Service
         #region 建構式注入
 
         private readonly ISQLRepository<Customer> repository;
+        private readonly ISQLQueryOperation<Customer> queryOperation;
 
-        public CustomerService(ISQLRepository<Customer> repository)
+        public CustomerService(ISQLRepository<Customer> repository, ISQLQueryOperation<Customer> queryOperation)
         {
             this.repository = repository;
+            this.queryOperation = queryOperation;
         }
 
         #endregion
@@ -46,9 +49,25 @@ namespace Service
                 };
         }
 
-        public ServiceResult<Customer> Find(Customer customer)
+        public ServiceResult<List<Customer>> Search(string keyWord)
         {
-            var model = this.GetSQLCustomer(customer);
+            this.queryOperation.Reset();
+
+            this.queryOperation.And(c => c.Name.Contains(keyWord));
+
+            var customers = this.repository.Query(this.queryOperation);
+
+            return
+                new ServiceResult<List<Customer>>()
+                {
+                    ResultType = ServiceResultType.Success,
+                    Value = customers,
+                };
+        }
+
+        public ServiceResult<Customer> Find(int customerId)
+        {
+            var model = this.GetSQLCustomer(customerId);
 
             if (model == null)
             {
@@ -68,9 +87,9 @@ namespace Service
                };
         }
 
-        public ServiceResult<Customer> Update(Customer customer)
+        public ServiceResult<Customer> Update(int customerId, Customer customer)
         {
-            var model = this.GetSQLCustomer(customer);
+            var model = this.GetSQLCustomer(customerId);
 
             if (model == null)
             {
@@ -108,9 +127,9 @@ namespace Service
                };
         }
 
-        public ServiceResult Delete(Customer customer)
+        public ServiceResult Delete(int customerId)
         {
-            var model = this.GetSQLCustomer(customer);
+            var model = this.GetSQLCustomer(customerId);
 
             if (model == null)
             {
@@ -122,7 +141,7 @@ namespace Service
                     };
             }
 
-            this.repository.Delete(customer);
+            this.repository.Delete(model);
 
             return
                new ServiceResult()
@@ -131,9 +150,9 @@ namespace Service
                };
         }
 
-        private Customer GetSQLCustomer(Customer customer)
+        private Customer GetSQLCustomer(int customerId)
         {
-            return this.repository.Find(customer.Id);
+            return this.repository.Find(customerId);
         }
     }
 }

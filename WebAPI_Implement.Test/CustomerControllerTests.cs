@@ -73,10 +73,12 @@ namespace WebAPI_Implement.Test
         [TestCategory("Unit")]
         public void Controller_CustomerFind_預期得到OK()
         {
+            var customerId = 1;
+
             var customer =
                 new Customer()
                 {
-                    Id = 1,
+                    Id = customerId,
                     Name = "TestName",
                 };
 
@@ -87,7 +89,7 @@ namespace WebAPI_Implement.Test
                     Value = customer,
                 };
 
-            this.service.Find(Arg.Is<Customer>(c => c.Id == customer.Id)).Returns(serviceResult);
+            this.service.Find(customerId).Returns(serviceResult);
 
             var customerInfo =
                 new CustomerInfo()
@@ -98,7 +100,7 @@ namespace WebAPI_Implement.Test
 
             this.mapper.Map<CustomerInfo>(customer).Returns(customerInfo);
 
-            var actual = this.controller.Find(customer.Id) as NegotiatedContentResult<CustomerInfo>;
+            var actual = this.controller.Find(customerId) as NegotiatedContentResult<CustomerInfo>;
 
             Assert.AreEqual(HttpStatusCode.OK, actual.StatusCode);
             Assert.AreEqual(customerInfo, actual.Content);
@@ -108,6 +110,8 @@ namespace WebAPI_Implement.Test
         [TestCategory("Unit")]
         public void Controller_CustomerUpdate_預期得到OK()
         {
+            var customerId = 5;
+
             var customerData =
                 new CustomerData()
                 {
@@ -117,7 +121,7 @@ namespace WebAPI_Implement.Test
             var customer =
                 new Customer()
                 {
-                    Id = 5,
+                    Id = customerId,
                     Name = customerData.Name,
                 };
 
@@ -130,7 +134,7 @@ namespace WebAPI_Implement.Test
                     Value = customer,
                 };
 
-            this.service.Update(customer).Returns(serviceResult);
+            this.service.Update(customerId, customer).Returns(serviceResult);
 
             var customerInfo =
                 new CustomerInfo()
@@ -142,7 +146,7 @@ namespace WebAPI_Implement.Test
 
             this.mapper.Map<CustomerInfo>(customer).Returns(customerInfo);
 
-            var actual = this.controller.Update(customer.Id, customerData) as NegotiatedContentResult<CustomerInfo>;
+            var actual = this.controller.Update(customerId, customerData) as NegotiatedContentResult<CustomerInfo>;
 
             Assert.AreEqual(HttpStatusCode.OK, actual.StatusCode);
             Assert.AreEqual(customerInfo, actual.Content);
@@ -152,12 +156,7 @@ namespace WebAPI_Implement.Test
         [TestCategory("Unit")]
         public void Controller_CustomerDelete_預期得到OK()
         {
-            var customer =
-                new Customer()
-                {
-                    Id = 1,
-                    Name = "TestName",
-                };
+            var customerId = 1;
 
             var serviceResult =
                 new ServiceResult<Customer>()
@@ -166,9 +165,9 @@ namespace WebAPI_Implement.Test
                     Message = "沒有東西",
                 };
 
-            this.service.Delete(Arg.Is<Customer>(c => c.Id == customer.Id)).Returns(serviceResult);
+            this.service.Delete(customerId).Returns(serviceResult);
 
-            var actual = this.controller.Delete(customer.Id) as NegotiatedContentResult<string>;
+            var actual = this.controller.Delete(customerId) as NegotiatedContentResult<string>;
 
             Assert.AreEqual(HttpStatusCode.OK, actual.StatusCode);
             Assert.AreEqual(serviceResult.Message, actual.Content);

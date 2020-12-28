@@ -53,7 +53,7 @@ namespace WebAPI_Implement
         [HttpGet]
         public IHttpActionResult Find(int customerId)
         {
-            var result = this.service.Find(new Customer() { Id = customerId, });
+            var result = this.service.Find(customerId);
 
             if (result.ResultType == ServiceResultType.Success)
             {
@@ -79,9 +79,7 @@ namespace WebAPI_Implement
         {
             var model = this.mapper.Map<Customer>(customer);
 
-            model.Id = customerId;
-
-            var result = this.service.Update(model);
+            var result = this.service.Update(customerId, model);
 
             if (result.ResultType == ServiceResultType.Success)
             {
@@ -101,7 +99,7 @@ namespace WebAPI_Implement
         [HttpDelete]
         public IHttpActionResult Delete(int customerId)
         {
-            var result = this.service.Delete(new Customer() { Id = customerId, });
+            var result = this.service.Delete(customerId);
 
             if (result.ResultType == ServiceResultType.Success)
             {

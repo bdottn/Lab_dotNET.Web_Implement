@@ -5,6 +5,9 @@ using NSubstitute;
 using Operation.Model;
 using Service.Model;
 using Service.Protocol;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Service.Test
 {
@@ -12,6 +15,7 @@ namespace Service.Test
     public sealed class CustomerServiceTests
     {
         private ISQLRepository<Customer> repository;
+        private ISQLQueryOperation<Customer> queryOperation;
 
         private ICustomerService service;
 
@@ -19,8 +23,9 @@ namespace Service.Test
         public void TestInitialize()
         {
             this.repository = Substitute.For<ISQLRepository<Customer>>();
+            this.queryOperation = Substitute.For<ISQLQueryOperation<Customer>>();
 
-            this.service = new CustomerService(this.repository);
+            this.service = new CustomerService(this.repository, this.queryOperation);
         }
 
         [TestMethod]
@@ -107,6 +112,49 @@ namespace Service.Test
 
         [TestMethod]
         [TestCategory("Unit")]
+        public void Service_CustomerSearch_預期得到Success()
+        {
+            var keyWord = "ABCCC";
+
+            var customers =
+                new List<Customer>()
+                {
+                    new Customer(){ Id = 999, },
+                    new Customer(){ Id = 888, },
+                };
+
+            this.repository.Query(this.queryOperation).Returns(customers);
+
+            var expected =
+                new ServiceResult<List<Customer>>()
+                {
+                    ResultType = ServiceResultType.Success,
+                    Value = customers,
+                };
+
+            var actual = this.service.Search(keyWord);
+
+            expected.ToExpectedObject().ShouldEqual(actual);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void Service_CustomerSearch_預期執行順序正確()
+        {
+            var keyWord = "ABCCC";
+
+            this.service.Search(keyWord);
+
+            Received.InOrder(() =>
+            {
+                this.queryOperation.Reset();
+                this.queryOperation.And(Arg.Any<Expression<Func<Customer, bool>>>());
+                this.repository.Query(this.queryOperation);
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Unit")]
         public void Service_CustomerFind_預期得到Success()
         {
             var customer =
@@ -125,7 +173,7 @@ namespace Service.Test
                     Value = customer,
                 };
 
-            var actual = this.service.Find(customer);
+            var actual = this.service.Find(customer.Id);
 
             expected.ToExpectedObject().ShouldEqual(actual);
         }
@@ -150,7 +198,7 @@ namespace Service.Test
                     Message = "資料庫不存在客戶資料",
                 };
 
-            var actual = this.service.Find(customer);
+            var actual = this.service.Find(customer.Id);
 
             expected.ToExpectedObject().ShouldEqual(actual);
         }
@@ -177,7 +225,7 @@ namespace Service.Test
                     Value = customer,
                 };
 
-            var actual = this.service.Update(customer);
+            var actual = this.service.Update(customer.Id, customer);
 
             expected.ToExpectedObject().ShouldEqual(actual);
         }
@@ -204,7 +252,7 @@ namespace Service.Test
                     Message = "資料庫不存在客戶資料",
                 };
 
-            var actual = this.service.Update(customer);
+            var actual = this.service.Update(customer.Id, customer);
 
             expected.ToExpectedObject().ShouldEqual(actual);
         }
@@ -231,7 +279,7 @@ namespace Service.Test
                     Message = "屬性驗證錯誤：RRRR",
                 };
 
-            var actual = this.service.Update(customer);
+            var actual = this.service.Update(customer.Id, customer);
 
             expected.ToExpectedObject().ShouldEqual(actual);
         }
@@ -251,7 +299,7 @@ namespace Service.Test
 
             this.repository.Validate(customer).Returns("");
 
-            this.service.Update(customer);
+            this.service.Update(customer.Id, customer);
 
             this.repository.DidNotReceiveWithAnyArgs().Update(customer);
         }
@@ -271,7 +319,7 @@ namespace Service.Test
 
             this.repository.Validate(customer).Returns("RRRR");
 
-            this.service.Update(customer);
+            this.service.Update(customer.Id, customer);
 
             this.repository.DidNotReceiveWithAnyArgs().Update(customer);
         }
@@ -295,7 +343,7 @@ namespace Service.Test
                     ResultType = ServiceResultType.Success,
                 };
 
-            var actual = this.service.Delete(customer);
+            var actual = this.service.Delete(customer.Id);
 
             expected.ToExpectedObject().ShouldEqual(actual);
         }
@@ -320,7 +368,7 @@ namespace Service.Test
                     Message = "資料庫不存在客戶資料",
                 };
 
-            var actual = this.service.Delete(customer);
+            var actual = this.service.Delete(customer.Id);
 
             expected.ToExpectedObject().ShouldEqual(actual);
         }
@@ -338,7 +386,7 @@ namespace Service.Test
 
             this.repository.Find(customer.Id).Returns((Customer)null);
 
-            this.service.Delete(customer);
+            this.service.Delete(customer.Id);
 
             this.repository.DidNotReceiveWithAnyArgs().Delete(customer);
         }
