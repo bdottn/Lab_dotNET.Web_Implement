@@ -14,5 +14,10 @@ namespace EntityOperation
         /// 客戶
         /// </summary>
         public DbSet<Customer> Customers { get; set; }
+
+        /// <summary>
+        /// 產品
+        /// </summary>
+        public DbSet<Product> Products { get; set; }
     }
 }
