@@ -9,9 +9,9 @@ using System.Web.Http.Filters;
 namespace WebAPI_Implement.Interceptor
 {
     /// <summary>
-    /// Auth 攔截器
+    /// Authorization 攔截器
     /// </summary>
-    sealed class AuthenticationAttribute : AuthorizationFilterAttribute
+    sealed class AuthorizationAttribute : AuthorizationFilterAttribute
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {

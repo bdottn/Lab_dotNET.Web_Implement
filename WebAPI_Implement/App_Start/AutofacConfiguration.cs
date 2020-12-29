@@ -12,8 +12,14 @@ using System.Web.Http;
 
 namespace WebAPI_Implement
 {
+    /// <summary>
+    /// Autofac 組態設定檔
+    /// </summary>
     static class AutofacConfiguration
     {
+        /// <summary>
+        /// 配置
+        /// </summary>
         public static void Configure(HttpConfiguration config)
         {
             var builder = new ContainerBuilder();

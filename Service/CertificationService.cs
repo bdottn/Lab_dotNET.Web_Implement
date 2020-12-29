@@ -39,7 +39,7 @@ namespace Service
                     new ServiceResult()
                     {
                         ResultType = ServiceResultType.Fail,
-                        Message = "憑證認證失敗，請確認憑證是否正確！",
+                        Message = "憑證失敗！",
                     };
             }
         }

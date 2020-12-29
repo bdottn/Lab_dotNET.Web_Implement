@@ -13,7 +13,7 @@ namespace EntityOperation.Protocol
         string MSSQLConnectionString { get; }
 
         /// <summary>
-        /// 可接受的系統介接端口憑證
+        /// 可接受的憑證
         /// </summary>
         /// <returns>WebAPI 憑證</returns>
         WebAPICredential AcceptedCredential { get; }

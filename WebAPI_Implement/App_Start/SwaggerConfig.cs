@@ -9,8 +9,14 @@ using WebAPI_Implement;
 
 namespace WebAPI_Implement
 {
+    /// <summary>
+    /// Swagger ²ÕºA³]©wÀÉ
+    /// </summary>
     public class SwaggerConfig
     {
+        /// <summary>
+        /// µù¥U
+        /// </summary>
         public static void Register()
         {
             var thisAssembly = typeof(SwaggerConfig).Assembly;
