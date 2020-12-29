@@ -46,9 +46,11 @@
     <Compile Include="CertificationService.cs" />
     <Compile Include="CustomerService.cs" />
     <Compile Include="Interceptor\ExceptionInterceptor.cs" />
+    <Compile Include="ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\ICertificationService.cs" />
     <Compile Include="Protocol\ICustomerService.cs" />
+    <Compile Include="Protocol\IProductService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityOperation\EntityOperation.csproj">

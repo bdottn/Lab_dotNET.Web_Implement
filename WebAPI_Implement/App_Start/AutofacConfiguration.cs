@@ -36,6 +36,7 @@ namespace WebAPI_Implement
             builder.RegisterType<ExceptionInterceptor>();
             builder.RegisterType<CertificationService>().As<ICertificationService>().EnableInterfaceInterceptors().InterceptedBy(typeof(ExceptionInterceptor)); ;
             builder.RegisterType<CustomerService>().As<ICustomerService>().EnableInterfaceInterceptors().InterceptedBy(typeof(ExceptionInterceptor)); ;
+            builder.RegisterType<ProductService>().As<IProductService>().EnableInterfaceInterceptors().InterceptedBy(typeof(ExceptionInterceptor)); ;
 
             // WebAPI_Implement
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

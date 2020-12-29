@@ -38,8 +38,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OperationToView\CustomerMapToCustomerInfo.cs" />
+    <Compile Include="OperationToView\ProductMapToProductInfo.cs" />
     <Compile Include="ViewToOperation\CustomerDataMapToCustomer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewToOperation\ProductDataMapToProduct.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

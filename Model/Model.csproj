@@ -45,6 +45,8 @@
     <Compile Include="Service\ServiceResultType.cs" />
     <Compile Include="View\CustomerData.cs" />
     <Compile Include="View\CustomerInfo.cs" />
+    <Compile Include="View\ProductData.cs" />
+    <Compile Include="View\ProductInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
