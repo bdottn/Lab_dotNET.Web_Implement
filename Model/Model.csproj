@@ -38,6 +38,8 @@
   <ItemGroup>
     <Compile Include="Operation\Customer.cs" />
     <Compile Include="Operation\CustomerAttribute\MSSQLDateTimeAttribute.cs" />
+    <Compile Include="Operation\Order.cs" />
+    <Compile Include="Operation\OrderDetail.cs" />
     <Compile Include="Operation\Product.cs" />
     <Compile Include="Operation\WebAPICredential.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

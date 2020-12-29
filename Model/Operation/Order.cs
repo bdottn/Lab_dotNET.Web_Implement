@@ -2,33 +2,39 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Operation.Model
 {
     /// <summary>
-    /// 客戶資料
+    /// 訂單資料
     /// </summary>
-    public class Customer
+    public class Order
     {
         /// <summary>
-        /// 客戶序號
+        /// 訂單序號
         /// </summary>
         [Required]
         [Key]
         public int Id { get; set; }
 
         /// <summary>
-        /// 客戶名稱
+        /// 客戶序號
         /// </summary>
-        [Required]
-        [MaxLength(30)]
-        public string Name { get; set; }
+        public int CustomerId { get; set; }
 
         /// <summary>
-        /// 客戶電話
+        /// 客戶資料
         /// </summary>
-        [MaxLength(24)]
-        public string Phone { get; set; }
+        [ForeignKey(nameof(CustomerId))]
+        public Customer Customer { get; set; }
+
+        /// <summary>
+        /// 訂單地址
+        /// </summary>
+        [Required]
+        [MaxLength(500)]
+        public string Address { get; set; }
 
         /// <summary>
         /// 建立時間
@@ -45,8 +51,8 @@ namespace Operation.Model
         public DateTime LatestModifiedTime { get; set; }
 
         /// <summary>
-        /// 訂單資料集合
+        /// 訂單明細集合
         /// </summary>
-        public List<Order> Orders { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
     }
 }
