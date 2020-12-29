@@ -72,6 +72,7 @@
     <Compile Include="CertificationServiceTests.cs" />
     <Compile Include="CustomerServiceTests.cs" />
     <Compile Include="Interceptor\ExceptionInterceptorTests.cs" />
+    <Compile Include="OrderServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

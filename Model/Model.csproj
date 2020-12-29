@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
@@ -47,8 +50,15 @@
     <Compile Include="Service\ServiceResultType.cs" />
     <Compile Include="View\CustomerData.cs" />
     <Compile Include="View\CustomerInfo.cs" />
+    <Compile Include="View\OrderInfo.cs" />
+    <Compile Include="View\OrderData.cs" />
+    <Compile Include="View\OrderDetailData.cs" />
+    <Compile Include="View\OrderDetailInfo.cs" />
     <Compile Include="View\ProductData.cs" />
     <Compile Include="View\ProductInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

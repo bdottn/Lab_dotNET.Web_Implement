@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Operation.Model
@@ -25,6 +26,7 @@ namespace Operation.Model
         /// 訂單資料
         /// </summary>
         [ForeignKey(nameof(OrderId))]
+        [JsonIgnore]
         public Order Order { get; set; }
 
         /// <summary>
@@ -37,6 +39,7 @@ namespace Operation.Model
         /// 產品資料
         /// </summary>
         [ForeignKey(nameof(ProductId))]
+        [JsonIgnore]
         public Product Product { get; set; }
 
         /// <summary>

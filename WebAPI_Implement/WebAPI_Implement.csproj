@@ -150,6 +150,7 @@
     </Compile>
     <Compile Include="Interceptor\ActionLogAttribute.cs" />
     <Compile Include="Interceptor\AuthorizationAttribute.cs" />
+    <Compile Include="OrderController.cs" />
     <Compile Include="ProductController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
