@@ -65,5 +65,20 @@ namespace WebAPI_Implement
                 return this.Content(statusCode, result.Message);
             }
         }
+
+        /// <summary>
+        /// 建立訂單資料
+        /// </summary>
+        /// <param name="customerId">客戶序號</param>
+        /// <param name="order">訂單資料</param>
+        [Route("customers/{customerId:int}/orders")]
+        [HttpPost]
+        [SwaggerResponse(HttpStatusCode.Created, Description = "建立成功。", Type = typeof(OrderInfo))]
+        public IHttpActionResult Create(int customerId, [FromBody]OrderData order)
+        {
+            order.CustomerId = customerId;
+
+            return this.Create(order);
+        }
     }
 }
