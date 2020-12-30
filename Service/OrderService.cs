@@ -3,6 +3,8 @@ using Operation.Model;
 using Service.Model;
 using Service.Protocol;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Service
 {
@@ -12,15 +14,18 @@ namespace Service
 
         private readonly ISQLRepository<Customer> customerRepository;
         private readonly ISQLRepository<Order> repository;
+        private readonly ISQLQueryOperation<Order> queryOperation;
         private readonly ISQLRepository<Product> productRepository;
 
         public OrderService(
             ISQLRepository<Customer> customerRepository,
             ISQLRepository<Order> repository,
+            ISQLQueryOperation<Order> queryOperation,
             ISQLRepository<Product> productRepository)
         {
             this.customerRepository = customerRepository;
             this.repository = repository;
+            this.queryOperation = queryOperation;
             this.productRepository = productRepository;
         }
 
@@ -81,6 +86,67 @@ namespace Service
             }
 
             this.repository.Create(order);
+
+            return
+                new ServiceResult<Order>()
+                {
+                    ResultType = ServiceResultType.Success,
+                    Value = order,
+                };
+        }
+
+        public ServiceResult<Order> Search(int orderId)
+        {
+            this.queryOperation.Reset();
+
+            this.queryOperation.And(o => o.Id == orderId);
+
+            this.queryOperation.Include(o => o.Customer);
+            this.queryOperation.Include(o => o.OrderDetails);
+            this.queryOperation.Include(o => o.OrderDetails.Select(od => od.Product));
+
+            var order = this.repository.Query(this.queryOperation).SingleOrDefault();
+
+            return
+                new ServiceResult<Order>()
+                {
+                    ResultType = ServiceResultType.Success,
+                    Value = order,
+                };
+        }
+
+        public ServiceResult<List<Order>> SearchCustomerOrder(int customerId)
+        {
+            this.queryOperation.Reset();
+
+            this.queryOperation.And(o => o.CustomerId == customerId);
+
+            this.queryOperation.Include(o => o.Customer);
+            this.queryOperation.Include(o => o.OrderDetails);
+            this.queryOperation.Include(o => o.OrderDetails.Select(od => od.Product));
+
+            var orders = this.repository.Query(this.queryOperation);
+
+            return
+                new ServiceResult<List<Order>>()
+                {
+                    ResultType = ServiceResultType.Success,
+                    Value = orders,
+                };
+        }
+
+        public ServiceResult<Order> SearchCustomerOrder(int customerId, int orderId)
+        {
+            this.queryOperation.Reset();
+
+            this.queryOperation.And(o => o.CustomerId == customerId);
+            this.queryOperation.And(o => o.Id == orderId);
+
+            this.queryOperation.Include(o => o.Customer);
+            this.queryOperation.Include(o => o.OrderDetails);
+            this.queryOperation.Include(o => o.OrderDetails.Select(od => od.Product));
+
+            var order = this.repository.Query(this.queryOperation).SingleOrDefault();
 
             return
                 new ServiceResult<Order>()

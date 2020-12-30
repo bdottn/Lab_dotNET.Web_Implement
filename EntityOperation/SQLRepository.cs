@@ -31,6 +31,14 @@ namespace EntityOperation
                     query = query.Where(queryOperation.QueryExpression);
                 }
 
+                if (queryOperation.IncludeExpressions != null)
+                {
+                    foreach (var includeExpression in queryOperation.IncludeExpressions)
+                    {
+                        query = query.Include(includeExpression);
+                    }
+                }
+
                 if (queryOperation.OrderBy != null)
                 {
                     query = queryOperation.OrderBy(query);

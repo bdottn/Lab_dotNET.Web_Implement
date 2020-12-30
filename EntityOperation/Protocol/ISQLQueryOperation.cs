@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -11,6 +12,11 @@ namespace EntityOperation.Protocol
     public interface ISQLQueryOperation<TModel>
         where TModel : class
     {
+        /// <summary>
+        /// 載入物件表達式集合
+        /// </summary>
+        List<Expression<Func<TModel, object>>> IncludeExpressions { get; }
+
         /// <summary>
         /// 查詢表達式
         /// </summary>
@@ -30,6 +36,13 @@ namespace EntityOperation.Protocol
         /// 分頁頁次
         /// </summary>
         int? PageIndex { get; }
+
+        /// <summary>
+        /// 包含載入物件表達式
+        /// <para>在現有載入物件表達式集合增加物件表達式</para>
+        /// </summary>
+        /// <param name="includeExpression">載入物件表達式</param>
+        void Include(Expression<Func<TModel, object>> includeExpression);
 
         /// <summary>
         /// 增加查詢表達式

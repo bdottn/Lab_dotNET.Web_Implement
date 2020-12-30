@@ -13,7 +13,8 @@ namespace Model.Mapper.ViewToOperation
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone))
                 .ForMember(dest => dest.CreatedTime, opt => opt.Ignore())
-                .ForMember(dest => dest.LatestModifiedTime, opt => opt.Ignore());
+                .ForMember(dest => dest.LatestModifiedTime, opt => opt.Ignore())
+                .ForMember(dest => dest.Orders, opt => opt.Ignore());
         }
     }
 }

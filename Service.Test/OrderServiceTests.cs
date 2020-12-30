@@ -14,6 +14,7 @@ namespace Service.Test
     {
         private ISQLRepository<Customer> customerRepository;
         private ISQLRepository<Order> repository;
+        private ISQLQueryOperation<Order> queryOperation;
         private ISQLRepository<Product> productRepository;
 
         private IOrderService service;
@@ -23,11 +24,13 @@ namespace Service.Test
         {
             this.customerRepository = Substitute.For<ISQLRepository<Customer>>();
             this.repository = Substitute.For<ISQLRepository<Order>>();
+            this.queryOperation = Substitute.For<ISQLQueryOperation<Order>>();
             this.productRepository = Substitute.For<ISQLRepository<Product>>();
 
             this.service = new OrderService(
                 this.customerRepository,
                 this.repository,
+                this.queryOperation,
                 this.productRepository);
         }
 

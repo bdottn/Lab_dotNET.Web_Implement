@@ -3,6 +3,7 @@ using Operation.Model;
 using Service.Model;
 using Service.Protocol;
 using Swashbuckle.Swagger.Annotations;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 using View.Model;
@@ -79,6 +80,82 @@ namespace WebAPI_Implement
             order.CustomerId = customerId;
 
             return this.Create(order);
+        }
+
+        /// <summary>
+        /// 搜尋訂單資料
+        /// </summary>
+        /// <param name="orderId">訂單序號</param>
+        [Route("orders/{orderId:int}")]
+        [HttpGet]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "搜尋成功。", Type = typeof(OrderInfo))]
+        public IHttpActionResult Search(int orderId)
+        {
+            var result = this.service.Search(orderId);
+
+            if (result.ResultType == ServiceResultType.Success)
+            {
+                var receipt = this.mapper.Map<OrderInfo>(result.Value);
+
+                return this.Content(HttpStatusCode.OK, receipt);
+            }
+            else
+            {
+                var statusCode = result.ResultType.ToHttpStatusCode();
+
+                return this.Content(statusCode, result.Message);
+            }
+        }
+
+        /// <summary>
+        /// 搜尋訂單資料
+        /// </summary>
+        /// <param name="customerId">客戶序號</param>
+        [Route("customers/{customerId:int}/orders")]
+        [HttpGet]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "搜尋成功。", Type = typeof(List<OrderInfo>))]
+        public IHttpActionResult SearchCustomerOrder(int customerId)
+        {
+            var result = this.service.SearchCustomerOrder(customerId);
+
+            if (result.ResultType == ServiceResultType.Success)
+            {
+                var receipt = this.mapper.Map<List<OrderInfo>>(result.Value);
+
+                return this.Content(HttpStatusCode.OK, receipt);
+            }
+            else
+            {
+                var statusCode = result.ResultType.ToHttpStatusCode();
+
+                return this.Content(statusCode, result.Message);
+            }
+        }
+
+        /// <summary>
+        /// 搜尋訂單資料
+        /// </summary>
+        /// <param name="customerId">客戶序號</param>
+        /// <param name="orderId">訂單序號</param>
+        [Route("customers/{customerId:int}/orders/{orderId:int}")]
+        [HttpGet]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "搜尋成功。", Type = typeof(OrderInfo))]
+        public IHttpActionResult SearchCustomerOrder(int customerId, int orderId)
+        {
+            var result = this.service.SearchCustomerOrder(customerId, orderId);
+
+            if (result.ResultType == ServiceResultType.Success)
+            {
+                var receipt = this.mapper.Map<OrderInfo>(result.Value);
+
+                return this.Content(HttpStatusCode.OK, receipt);
+            }
+            else
+            {
+                var statusCode = result.ResultType.ToHttpStatusCode();
+
+                return this.Content(statusCode, result.Message);
+            }
         }
     }
 }
